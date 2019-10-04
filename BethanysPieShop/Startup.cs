@@ -21,6 +21,7 @@ namespace BethanysPieShop
             services.AddScoped<IPieRepository, MockPieRepository>();
             services.AddScoped<ICategoryRepository, MockCategoryRepository>();
             // add MVC method
+            // new in core 3.0
             services.AddControllersWithViews();
         }
 
