@@ -48,6 +48,7 @@ namespace BethanysPieShop
             app.UseHttpsRedirection();
             //use ststaic files in wwwroot
             app.UseStaticFiles();
+            //enable MVC routing
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
