@@ -32,6 +32,9 @@ namespace BethanysPieShop
             //registering services for dependancy injection.
             services.AddScoped<IPieRepository, PieRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ShoppingCart>(sp=>ShoppingCart.GetCart(sp));
+            services.AddHttpContextAccessor();
+            services.AddSession();
             // add MVC method
             // new in core 3.0
             services.AddControllersWithViews();
@@ -40,7 +43,7 @@ namespace BethanysPieShop
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment())  
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -48,6 +51,8 @@ namespace BethanysPieShop
             app.UseHttpsRedirection();
             //use ststaic files in wwwroot
             app.UseStaticFiles();
+            // add session middleware
+            app.UseSession();
             //enable MVC routing
             app.UseRouting();
 
