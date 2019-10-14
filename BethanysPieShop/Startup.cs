@@ -6,6 +6,7 @@ using BethanysPieShop.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +29,8 @@ namespace BethanysPieShop
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<AppDbContext>();
 
             //registering services for dependancy injection.
             services.AddScoped<IPieRepository, PieRepository>();
@@ -56,6 +59,8 @@ namespace BethanysPieShop
             app.UseSession();
             //enable MVC routing
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
@@ -63,6 +68,7 @@ namespace BethanysPieShop
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{Id?}");
+                endpoints.MapRazorPages();
 
                 //endpoints.MapGet("/", async context =>
                 //{
